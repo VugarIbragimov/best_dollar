@@ -1,55 +1,60 @@
-from telegram.ext import Updater, CommandHandler
-from selenium.webdriver.common.by import By
-from telegram import ReplyKeyboardMarkup
-
+import asyncio
+import logging
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters.command import Command
+from aiogram.dispatcher import FSMContext
+from aiogram.dispatcher.filters import Text
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
+from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from create_driver import create_driver
+from selenium.webdriver.common.by import By
 
-BOT_TOKEN = '6831828947:AAFEuMRVYVtCMTukSyAs0VWp9Rnzf-DHdpE'
+logging.basicConfig(level=logging.INFO)
 
+bot = Bot(token="YOUR_BOT_TOKEN")
+dp = Dispatcher(bot, storage=MemoryStorage())
+dp.middleware.setup(LoggingMiddleware())
 
-# Функция, которая будет вызываться при команде /start
-def start(update, context):
+class FormStates:
+    waiting_for_city = 'waiting_for_city'
 
-    buttons = ReplyKeyboardMarkup([['/getrate',
-                                    '/get_dollar_rate']],
-                                  resize_keyboard=True, one_time_keyboard=True)
-    update.message.reply_text("Привет! Я бот, который \
-                              возвращает курс доллара.",
-                              reply_markup=buttons,
-                              )
+@dp.message_handler(Command("start"))
+async def cmd_start(message: types.Message):
+    kb = [
+        [
+            types.KeyboardButton(text="Узнать курс $ по ЦБ"),
+            types.KeyboardButton(text="Купить $ в моем городе"),
+            types.KeyboardButton(text="Продать $ в моем городе")
+        ],
+    ]
+    keyboard = types.ReplyKeyboardMarkup(
+        keyboard=kb,
+        resize_keyboard=True,
+        input_field_placeholder="Выберите действие"
+    )
+    await message.answer("Чем могу быть полезен?", reply_markup=keyboard)
 
+@dp.message_handler(Text(equals="Купить $ в моем городе"))
+async def buy_dollar(message: types.Message):
+    await message.answer("В каком городе хотите узнать актуальные курсы для покупки?")
+    await FormStates.waiting_for_city.set()
 
-# Функция для получения курса доллара с веб-сайта
-def get_dollar_rate(update, context,):
-    url = "https://quote.rbc.ru/ticker/72413?ysclid=loddzdqpq6156801105"
-    driver = create_driver(url)
+@dp.message_handler(state=FormStates.waiting_for_city)
+async def process_city(message: types.Message, state: FSMContext):
+    city = message.text
+    await state.update_data(city=city)
+    await state.finish()  # завершаем состояние
 
-    elements = driver.find_element(By.CLASS_NAME,
-                                   "chart__info__sum")
+    # Здесь ты можешь передать город в Selenium и обработать запрос
+    # Пример:
+    # city_data = await state.get_data()
+    # city = city_data['city']
+    # выполнить логику с использованием Selenium...
 
-    dollar_rate = elements.text
+    await message.reply(f"Город {city} сохранен. Теперь можно обрабатывать запросы.")
 
-    # Close the driver
-    driver.quit()
+async def main():
+    await dp.start_polling()
 
-    update.message.reply_text(f'Курс доллара по ЦБ: {dollar_rate}')
-
-
-def ratebanki(update, context):
-    update.message.reply_text("Курс доллара по все банки.ру ...")
-
-
-def main():
-    updater = Updater(BOT_TOKEN)
-    dp = updater.dispatcher
-
-    dp.add_handler(CommandHandler("get_dollar_rate", ratebanki))
-    dp.add_handler(CommandHandler("start", start))
-    dp.add_handler(CommandHandler("getrate", get_dollar_rate,))
-
-    updater.start_polling()
-    updater.idle()
-
-
-if __name__ == "__main__":
-    main()
+if name == "__main__":
+    asyncio.run(main())
