@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        {% load static %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>HairStudio TJ</title>
+
+        <!-- CSS FILES -->
+        <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" />
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.css'%}">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'css/templatemo-barber-shop.css'%}">
+
+        <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500&display=swap" rel="stylesheet">
+
+
+    </head>
+    
+    <body>
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <button class="navbar-toggler d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block sidebar collapse p-0">
+
+                    <div class="position-sticky sidebar-sticky d-flex flex-column justify-content-center align-items-center">
+                        <a class="navbar-brand">
+                            <img src="{% static 'images/logo.png'%}" class="logo-image img-fluid">
+                        </a>
+
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_1">Главная</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_2">О нас</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_3">Услуги</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_4">Прайс-лист</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link click-scroll" href="#section_5">Контакты</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                
+                <div class="col-md-8 ms-sm-auto col-lg-9 p-0">
+                    <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+
+                            <div class="container">
+                                <div class="row">
+
+                                    <div class="col-lg-8 col-12">
+                                        <h1 class="text-white mb-lg-3 mb-4"><strong>Hair<em>Studio <br>TJ</em></strong></h1>
+                                        <p class="text-black">Профессиональная стрижка по низким ценам</p>
+                                        <br>
+                                        <a class="btn custom-btn custom-border-btn custom-btn-bg-white smoothscroll me-2 mb-2" href="#section_2">О нашей команде</a>
+
+                                        <a class="btn custom-btn smoothscroll mb-2" href="#section_3">Наши углуги</a>
+                                    </div>
+                                </div>
+                            </div>
+                    </section>
+
+
+                    <section class="about-section section-padding" id="section_2">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-12 mx-auto">
+                                    <h2 class="mb-4">Лучшие парикмахеры</h2>
+
+                                    <div class="border-bottom pb-3 mb-5">
+                                        <p>Hair Studio TJ — это не сетевая парикмахерская, а локальное заведение, открытое опытными мастерами высокого класса. Основой нашей философии — является максимальный уровень мастерства в предоставлении услуг стрижек и бритья, индивидуальный подход и создание уютной атмосферы для каждого гостя.</p>
+                                    </div>
+                                </div>
+
+                                    <h6 class="mb-5">Познакомьтесь</h6>
+
+                                        <div class="col-lg-5 col-12 custom-block-bg-overlay-wrap me-lg-5 mb-5 mb-lg-0">
+                                            <img src="{% static 'images/barber/portrait-male-hairdresser-with-scissors.jpg'%}" class="custom-block-bg-overlay-image img-fluid" alt="">
+
+                                            <div class="team-info d-flex align-items-center flex-wrap">
+                                                <p class="mb-0">Евгений</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-5 col-12 custom-block-bg-overlay-wrap mt-4 mt-lg-0 mb-5 mb-lg-0">
+                                            <img src="{% static 'images/barber/photo_2023-07-20 14.57.33.jpeg'%}" class="custom-block-bg-overlay-image img-fluid" alt="">
+
+                                            <div class="team-info d-flex align-items-center flex-wrap">
+                                                <p class="mb-0">Артем</p>
+                                            </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="featured-section section-padding">
+                        <div class="section-overlay"></div>
+
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-10 col-12 mx-auto">
+                                    <h2 class="text-center">Акции</h2>
+
+                                    <p>Комплекс услуг - 10%</p>
+                                    <p>Знакомство с мастером - 10%</p>
+                                    <p>Семейная скидка за каждого - 10%</p>
+                                    <p>Каждая 10-ая стрижка скидка - 50%</p>
+                                    <p>Скидка для пенсионеров по пн до 17:00 - 20%</p>
+                                    <p>*Все скидки не суммируются*</p>
+
+                                </div>
+
+                                <div class="col-lg-10 col-12 mx-auto">
+                                    <strong>Поторопись!</strong>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+
+                    <section class="services-section section-padding" id="section_3">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-12">
+                                    <h2 class="mb-5">Услуги</h2>
+                                </div>
+
+                                <div class="col-lg-6 col-12 mb-4">
+                                    <div class="services-thumb">
+                                        <img src="{% static 'images/services/haircut.png'%}" class="services-image img-fluid" alt="" height="100vw">
+
+                                        <div class="services-info d-flex align-items-end">
+                                            <h4 class="mb-0">Стрижка</h4>
+
+                                            <strong class="services-thumb-price">700₽</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-12 mb-4">
+                                    <div class="services-thumb">
+                                        <img src="{% static 'images/services/hairdresser-grooming-their-client.jpg'%}" class="services-image img-fluid" alt="">
+
+                                        <div class="services-info d-flex align-items-end">
+                                            <h4 class="mb-0">Комплекс услуг</h4>
+
+                                            <strong class="services-thumb-price">1200₽</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-12 mb-4 mb-lg-0">
+                                    <div class="services-thumb">
+                                        <img src="{% static 'images/services/hairdresser-grooming-client.jpg'%}" class="services-image img-fluid" alt="">
+
+                                        <div class="services-info d-flex align-items-end">
+                                            <h4 class="mb-0">Бритье опасным лезвием</h4>
+
+                                            <strong class="services-thumb-price">900₽</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6 col-12">
+                                    <div class="services-thumb">
+                                        <img src="{% static 'images/services/boy-getting-haircut-salon-front-view.jpg'%}" class="services-image img-fluid" alt="">
+
+                                        <div class="services-info d-flex align-items-end">
+                                            <h4 class="mb-0">Стрижка детей от 3-х до 14-ти лет</h4>
+
+                                            <strong class="services-thumb-price">800₽</strong>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                    <section class="price-list-section section-padding" id="section_4">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-8 col-12">
+                                    <div class="price-list-thumb-wrap">
+                                        <div class="mb-4">
+                                            <h2 class="mb-2">Прайс-лист</h2>
+
+                                            <strong>Стрижка от 300 рублей</strong>
+                                        </div>
+
+                                        <div class="price-list-thumb">
+                                            <h6 class="d-flex">
+                                                Стрижка одной насадкой
+                                                <span class="price-list-thumb-divider"></span>
+
+                                                <strong>300₽</strong>
+                                            </h6>
+                                        </div>
+
+                                        <div class="price-list-thumb">
+                                            <h6 class="d-flex">
+                                                Стрижка от двух насадок 
+                                                <span class="price-list-thumb-divider"></span>
+
+                                                <strong>700₽</strong>
+                                            </h6>
+                                        </div>
+                                        <div class="price-list-thumb">
+                                            <h6 class="d-flex">
+                                                Fade стрижка (переход с нуля)
+                                                <span class="price-list-thumb-divider"></span>
+
+                                                <strong>1000₽</strong>
+                                            </h6>
+                                        </div>
+
+                                        <div class="price-list-thumb">
+                                            <h6 class="d-flex">
+                                                Модельная стрижка
+                                                <span class="price-list-thumb-divider"></span>
+
+                                                <strong>1200₽</strong>
+                                            </h6>
+                                        </div>
+
+                                        <div class="price-list-thumb">
+                                            <h6 class="d-flex">
+                                                Королевское бритье
+                                                <span class="price-list-thumb-divider"></span>
+
+                                                <strong>1200₽</strong>
+                                            </h6>
+                                        </div>
+
+                                        <div class="price-list-thumb">
+                                            <h6 class="d-flex">
+                                                Стрижка бороды (окантовка машинкой)
+                                                <span class="price-list-thumb-divider"></span>
+
+                                                <strong>600₽</strong>
+                                            </h6>
+                                        </div>
+
+                                        <div class="price-list-thumb">
+                                            <h6 class="d-flex">
+                                                Стрижка бороды (окантовка опасным лезвием)
+                                                <span class="price-list-thumb-divider"></span>
+
+                                                <strong>900₽</strong>
+                                            </h6>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-12 custom-block-bg-overlay-wrap mt-5 mb-5 mb-lg-0 mt-lg-0 pt-3 pt-lg-0">
+                                    <img src="{% static 'images/gelik.jpg'%}" class="custom-block-bg-overlay-image img-fluid" alt="">
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+
+
+                <section class="contact-section" id="section_5">
+                    <div class="section-padding section-bg">
+                        <div class="container">
+                            <div class="row">   
+
+                                <div class="col-lg-8 col-12 mx-auto">
+                                    <h2 class="text-center">Будем рады вас видеть!</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-padding">
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-6 col-12">
+                                    <h5 class="mb-3"><strong>Контактная</strong> информация</h5>
+
+                                    <p class="text-white d-flex mb-1">
+                                        <a href="tel: +7 (931) 232-42-42" class="site-footer-link">
+                                             
+                                            +7 (931) 232-42-42
+                                        </a>
+                                    </p>
+
+                                    <ul class="social-icon">
+            
+                                        <li class="social-icon-item">
+                                            <a href="https://instagram.com/hair_studio__tj?igshid=YmM0MjE2YWMzOA==" class="social-icon-link bi-instagram">
+                                            </a>
+                                        </li>
+                                        <li class="social-icon-item">
+                                            <a href="https://wa.me/79312324242" class="social-icon-link bi-whatsapp">
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-lg-5 col-12 contact-block-wrap mt-5 mt-lg-0 pt-4 pt-lg-0 mx-auto">
+                                    <div class="contact-block">
+                                        <h6 class="mb-0">
+                                            <i class="custom-icon bi-shop me-3"></i>
+
+                                            <strong>Открыты ежедневно</strong>
+
+                                            <span class="ms-auto">10:00 - 22:00 </span>
+                                        </h6>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12 col-12 mx-auto mt-5 pt-5">
+                                    <div style="position:relative;overflow:hidden;"><a href="https://yandex.ru/maps/org/hair_studio_tj/89900233804/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:0px;">Hair Studio TJ</a><a href="https://yandex.ru/maps/2/saint-petersburg/category/hairdresser/184105812/?utm_medium=mapframe&utm_source=maps" style="color:#eee;font-size:12px;position:absolute;top:14px;">Парикмахерская в Санкт‑Петербурге</a><iframe src="https://yandex.ru/map-widget/v1/?ll=30.275833%2C60.057999&mode=search&oid=89900233804&ol=biz&z=18.5" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="site-footer">
+                    <div class="container">
+                        <div class="row">
+
+                            <div class="col-lg-12 col-12">
+                                <h4 class="site-footer-title mb-4"> Местоположение</h4>
+                            </div>
+
+                            <div class="col-lg-4 col-md-6 col-11">
+                                <div class="site-footer-thumb">
+                                    <strong class="mb-1">Санкт-Петербург</strong>
+
+                                    <p>Суздальское ш., 22, корп. 4, 1 этаж</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="site-footer-bottom">
+                        <div class="container">
+                            <div class="row align-items-center">
+
+                                <div class="col-lg-8 col-12 mt-4">
+                                    <p class="copyright-text mb-0">Copyright © 2023 </p>
+                                </div>
+
+                                <div class="col-lg-2 col-md-3 col-3 mt-lg-4 ms-auto">
+                                    <a href="#section_1" class="back-top-icon smoothscroll" title="Back Top">
+                                        <i class="bi-arrow-up-circle"></i>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+        <!-- JAVASCRIPT FILES -->
+        <script src="{% static 'js/jquery.min.js'%}"></script>
+        <script src="{% static 'js/bootstrap.min.js'%}"></script>
+        <script src="{% static 'js/click-scroll.js'%}"></script>
+        <script src="{% static 'js/custom.js'%}"></script>
+        <script type="text/javascript" src="https://w944763.yclients.com/widgetJS" charset="UTF-8"></script>
+        </script>
+    </body>
+</html>

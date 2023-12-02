@@ -1,60 +1,94 @@
 import asyncio
 import logging
 from aiogram import Bot, Dispatcher, types
+from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.fsm.context import FSMContext
 from aiogram.filters.command import Command
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters import Text
-from aiogram.contrib.middlewares.logging import LoggingMiddleware
-from aiogram.contrib.fsm_storage.memory import MemoryStorage
 from create_driver import create_driver
 from selenium.webdriver.common.by import By
+from slugify import slugify
 
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token="YOUR_BOT_TOKEN")
-dp = Dispatcher(bot, storage=MemoryStorage())
-dp.middleware.setup(LoggingMiddleware())
+bot = Bot(token="6831828947:AAFEuMRVYVtCMTukSyAs0VWp9Rnzf-DHdpE")
+dp = Dispatcher(storage=MemoryStorage())
+
+keyboard = ReplyKeyboardMarkup(
+    keyboard=[
+        [
+            KeyboardButton(text="Узнать курс по ЦБ"),
+            KeyboardButton(text="Купить $"),
+            KeyboardButton(text="Продать $"),
+        ],
+    ],
+    resize_keyboard=True,
+    input_field_placeholder="Выберите дествие"
+)
+
 
 class FormStates:
     waiting_for_city = 'waiting_for_city'
 
-@dp.message_handler(Command("start"))
+
+@dp.message(Command("start"))
 async def cmd_start(message: types.Message):
-    kb = [
-        [
-            types.KeyboardButton(text="Узнать курс $ по ЦБ"),
-            types.KeyboardButton(text="Купить $ в моем городе"),
-            types.KeyboardButton(text="Продать $ в моем городе")
-        ],
-    ]
-    keyboard = types.ReplyKeyboardMarkup(
-        keyboard=kb,
-        resize_keyboard=True,
-        input_field_placeholder="Выберите действие"
-    )
     await message.answer("Чем могу быть полезен?", reply_markup=keyboard)
 
-@dp.message_handler(Text(equals="Купить $ в моем городе"))
-async def buy_dollar(message: types.Message):
-    await message.answer("В каком городе хотите узнать актуальные курсы для покупки?")
+
+@dp.message(lambda message: message.text == "Узнать курс по ЦБ")
+async def action_check_cbr(message: types.Message):
+    url = "https://quote.rbc.ru/ticker/72413?ysclid=loddzdqpq6156801105"
+    driver = create_driver(url)
+    elems = driver.find_element(By.CLASS_NAME,
+                                "chart__info__sum")
+    dollar_rate = elems.text
+    await message.reply(f"Курс доллара по ЦБ: {dollar_rate}")
+
+
+@dp.message(lambda message: message.text in ["Купить $", "Продать $"])
+async def action_ask_city(message: types.Message, state: FSMContext):
+    # Действия 2 и 3: Задаем вопрос о городе
+    await message.answer("В каком городе вы хотите купить или продать $?")
+    # Сохраняем тип операции в состоянии FSM
+    await state.update_data(operation_type=message.text)
+    # Переходим в состояние ожидания города
     await FormStates.waiting_for_city.set()
 
-@dp.message_handler(state=FormStates.waiting_for_city)
+
+@dp.message()
 async def process_city(message: types.Message, state: FSMContext):
+
     city = message.text
-    await state.update_data(city=city)
-    await state.finish()  # завершаем состояние
+    slug_city = slugify(city)
 
-    # Здесь ты можешь передать город в Selenium и обработать запрос
-    # Пример:
-    # city_data = await state.get_data()
-    # city = city_data['city']
-    # выполнить логику с использованием Selenium...
+    data = await state.get_data()
+    operation_type = data.get('operation_type')
 
-    await message.reply(f"Город {city} сохранен. Теперь можно обрабатывать запросы.")
+    if operation_type == "Купить $":
+
+        url = f'https://www.banki.ru/products/currency/cash/{slug_city}/'
+        driver = create_driver(url)
+        elems = driver.find_elements(By.CLASS_NAME, 'Text__sc-j452t5-0.jzaqdw')
+        dollar_rates = [elem.text for elem in elems]
+        result = f"Курсы для покупки в городе {city}: {dollar_rates}"
+    elif operation_type == "Продать $":
+
+        url = f'https://www.banki.ru/products/currency/cash/usd/{slug_city}/'
+        driver = create_driver(url)
+        elems = driver.find_elements(By.CLASS_NAME, 'Text__sc-j452t5-0.jzaqdw')
+        dollar_rates = [elem.text for elem in elems]
+        result = f"Курсы для продажи в городе {city}: {dollar_rates}"
+    else:
+        result = "Неизвестная операция"
+
+    await message.answer(result)
+    await state.clear()
+
 
 async def main():
-    await dp.start_polling()
+    await dp.start_polling(bot)
 
-if name == "__main__":
+
+if __name__ == "__main__":
     asyncio.run(main())

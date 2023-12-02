@@ -50,13 +50,15 @@ async def return_rate(message: types.Message):
 
 @dp.message(F.text.lower() == "купить $ в моем городе")
 async def buy_dollar(message: types.Message):
-    await message.reply("В каком горооде хотите узнать актуальные курсы для покупки?")
+    await message.reply("В каком горооде хотите узнать\
+                        актуальные курсы для покупки?")
     await FormStates.waiting_for_city.set()
 
 
 @dp.message(F.text.lower() == "продать $ в моем городе")
 async def sell_dollar(message: types.Message):
-    await message.reply("В каком горооде хотите узнать актуальные курсы для продажи?")
+    await message.reply("В каком горооде хотите узнать\
+                         актуальные курсы для продажи?")
     await FormStates.waiting_for_city.set()
 
 
@@ -81,7 +83,8 @@ async def process_city(message: types.Message, state: FSMContext):
     # await state.finish()
 
     await message.reply(
-        f"Город {city} сохранен. Теперь можно обрабатывать запросы.{dollar_rates}")
+        f"Город {city} сохранен.\
+            Теперь можно обрабатывать запросы.{dollar_rates}")
 
 
 async def main():
