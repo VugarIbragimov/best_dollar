@@ -67,18 +67,23 @@ async def process_city(message: types.Message, state: FSMContext):
 
     if operation_type == "Купить $":
 
-        url = f'https://www.banki.ru/products/currency/cash/{slug_city}/'
+        url = f'https://www.banki.ru/products/currency/cash/{slug_city}/?buttonId=2'
+        # f'https://www.banki.ru/products/currency/cash/{slug_city}/'
         driver = create_driver(url)
         elems = driver.find_elements(By.CLASS_NAME, 'Text__sc-j452t5-0.jzaqdw')
-        dollar_rates = [elem.text for elem in elems]
-        result = f"Курсы для покупки в городе {city}: {dollar_rates}"
+        dollar_rates = [float(elem.text.replace(',', '.').strip(' ₽')) for elem in elems if '—' not in elem.text]
+        # if elem.text.replace(',', '.').strip(' ₽').lstrip('-').isdigit()
+        sorted_dollar_rates = sorted(dollar_rates[::2])
+        result = f"Курсы для покупки в городе {city}: {sorted_dollar_rates}"
     elif operation_type == "Продать $":
 
-        url = f'https://www.banki.ru/products/currency/cash/usd/{slug_city}/'
+        url = f'https://www.banki.ru/products/currency/cash/{slug_city}/?buttonId=3'
         driver = create_driver(url)
         elems = driver.find_elements(By.CLASS_NAME, 'Text__sc-j452t5-0.jzaqdw')
-        dollar_rates = [elem.text for elem in elems]
-        result = f"Курсы для продажи в городе {city}: {dollar_rates}"
+        dollar_rates = [float(elem.text.replace(',', '.').strip(' ₽')) for elem in elems if '—' not in elem.text]
+
+        sorted_dollar_rates = sorted(dollar_rates[::2], reverse=True)
+        result = f"Курсы для продажи в городе {city}: {sorted_dollar_rates}"
     else:
         result = "Неизвестная операция"
 
