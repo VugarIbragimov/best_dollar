@@ -33,7 +33,7 @@ async def process_data(driver, operation_type):
 
             exchange_rate = exchange_rate_elements[0].text if exchange_rate_elements else "0, ₽"
 
-            search = bank_name.replace(' ', '')
+            search = bank_name.replace(' ', '').replace('«', '')
             address = f'https://yandex.ru/maps/?text={search}'
 
             block_data = {

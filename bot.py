@@ -72,8 +72,8 @@ async def action_check_cbr(message: types.Message):
         elems = driver.find_element(By.CLASS_NAME, "chart__info__sum")
     except Exception as ex:
         print(f"Не удалось найти курс по ЦБ. Ошибка {ex}")
-    dollar_rate = elems.text
-    await message.reply(f"Курс доллара по ЦБ: {dollar_rate}")
+    dollar_rate = elems.text.replace('₽', '')
+    await message.reply(f"Курс доллара по ЦБ: {dollar_rate} ₽")
 
 
 @dp.message(lambda message: message.text in ["Купить $", "Продать $"])
@@ -104,10 +104,10 @@ async def process_city(message: types.Message, state: FSMContext):
 
         sorted_data_list = await process_data(driver, operation_type)
 
-        result = f"Курсы для продажи в городе {city}:\n\n"
+        result = f"Курсы для покупки 💲 в городе {city.capitalize()}:\n\n"
 
         for bank_data in sorted_data_list:
-            result += f"Банк: {bank_data['bank_name']}\nКурс: {bank_data['exchange_rate']}\nАдрес: {bank_data['address']}\n\n"
+            result += f"🏦Банк: {bank_data['bank_name']}\n🔄 Курс: {bank_data['exchange_rate']}\n📍 Адрес: {bank_data['address']}\n\n"
 
     elif operation_type == "Продать $":
 
@@ -116,10 +116,10 @@ async def process_city(message: types.Message, state: FSMContext):
 
         sorted_data_list = await process_data(driver, operation_type)
 
-        result = f"Курсы для покупки в городе {city}:\n\n"
+        result = f"Курсы для продажи 💲 в городе {city.capitalize()}:\n\n"
 
         for bank_data in sorted_data_list:
-            result += f"Банк: {bank_data['bank_name']}\nКурс: {bank_data['exchange_rate']}\nАдрес: {bank_data['address']}\n\n"
+            result += f"🏦Банк: {bank_data['bank_name']}\n 🔄Курс: {bank_data['exchange_rate']}\n📍 Адрес: {bank_data['address']}\n\n"
 
     else:
         result = "Неизвестная операция"
