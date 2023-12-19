@@ -125,7 +125,10 @@ async def process_city(message: types.Message, state: FSMContext):
             data_list,
             key=lambda x: float(x['exchange_rate'].replace('₽', '').replace(',', '.')))
 
-        result = f"Курсы для покупки в городе {city}: {sorted_data_list}"
+        result = f"Курсы для продажи в городе {city}:\n\n"
+
+        for bank_data in sorted_data_list:
+            result += f"Банк: {bank_data['bank_name']}\nКурс: {bank_data['exchange_rate']}\nАдрес: {bank_data['address']}\n\n"
 
     elif operation_type == "Продать $":
 
@@ -174,7 +177,11 @@ async def process_city(message: types.Message, state: FSMContext):
             data_list,
             key=lambda x: float(x['exchange_rate'].replace('₽', '').replace(',', '.')), reverse=True)
 
-        result = f"Курсы для покупки в городе {city}: {sorted_data_list}"
+        # result = f"Курсы для покупки в городе {city}:\n\n{sorted_data_list}"
+        result = f"Курсы для покупки в городе {city}:\n\n"
+
+        for bank_data in sorted_data_list:
+            result += f"Банк: {bank_data['bank_name']}\nКурс: {bank_data['exchange_rate']}\nАдрес: {bank_data['address']}\n\n"
 
     else:
         result = "Неизвестная операция"

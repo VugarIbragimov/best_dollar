@@ -1,27 +1,36 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from create_driver import create_driver
-
-url = 'https://www.banki.ru/products/currency/cash/moskva/?buttonId=2'
-driver = create_driver(url)
 
 
+# Function for finding data for a city
 async def process_data(driver, operation_type):
     data_list = []
 
     while True:
-        blocks = driver.find_elements(
-            By.CSS_SELECTOR,
-            'div[data-test="currency__rates-form__result-item"]')
+        try:
+            blocks = driver.find_elements(
+                By.CSS_SELECTOR,
+                'div[data-test="currency__rates-form__result-item"]')
+        except Exception as ex:
+            print(f"Не удалось найти блоки с бвнквми. \
+                  завершаем цикл. Ошибка: {ex}")
 
         for block in blocks:
-            bank_name = block.find_element(
-                By.CSS_SELECTOR,
-                'div[data-test="currenct--result-item--name"]').text
-            exchange_rate_elements = block.find_elements(
-                By.CSS_SELECTOR,
-                'div[data-test="text"].Text__sc-j452t5-0.jzaqdw')
+            try:
+                bank_name = block.find_element(
+                    By.CSS_SELECTOR,
+                    'div[data-test="currenct--result-item--name"]').text
+            except Exception as ex:
+                print(f"Не удалось найти название с банка. \
+                      Завершаем цикл. Ошибка: {ex}")
+
+            try:
+                exchange_rate_elements = block.find_elements(
+                    By.CSS_SELECTOR,
+                    'div[data-test="text"].Text__sc-j452t5-0.jzaqdw')
+            except Exception as ex:
+                print(f"Не удалось найти курс $ банка. \
+                      Завершаем цикл. Ошибка: {ex}")
+
             exchange_rate = exchange_rate_elements[0].text if exchange_rate_elements else "0, ₽"
 
             search = bank_name.replace(' ', '')
@@ -35,17 +44,7 @@ async def process_data(driver, operation_type):
 
             data_list.append(block_data)
 
-        try:
-            show_more_button = WebDriverWait(driver, 10).until(
-                EC.element_to_be_clickable((
-                    By.XPATH,
-                    '//a[@data-role="button" and contains(@class, "Button__sc-16w8pak-2")]/span[text()="Показать еще"]')))
-            driver.execute_script("arguments[0].click();",
-                                  show_more_button)
-        except Exception as e:
-            print(f"Не удалось найти кнопку 'Показать еще'. \
-            Завершаем цикл. Ошибка: {e}")
-            break
+        break
 
     sorted_data_list = sorted(
         data_list,
@@ -55,6 +54,7 @@ async def process_data(driver, operation_type):
     return sorted_data_list
 
 
+# Array for the cities served
 available_cities = [
     'Абакан', 'Альметьевск', 'Ангарск', 'Архангельск', 'Астрахань',
     'Балашиха', 'Барнаул', 'Белгород', 'Бийск', 'Благовещенск', 'Братск',
@@ -106,25 +106,3 @@ available_cities = [
     'тюмень', 'улан-удэ', 'ульяновск', 'уфа', 'хабаровск', 'химки',
     'чебоксары', 'челябинск', 'череповец', 'чита', 'южно-сахалинск',
     'якутск', 'ярославль']
-
-# @dp.message()
-# async def process_city(message: types.Message, state: FSMContext):
-#     city = message.text
-#     slug_city = slugify(city)
-
-#     url = f'https://www.banki.ru/products/currency/cash/{slug_city}/?buttonId=2'
-#     driver = create_driver(url)
-
-#     data = await state.get_data()
-#     operation_type = data.get('operation_type')
-
-#     if operation_type not in ["Купить $", "Продать $"]:
-#         await message.answer("Неизвестная операция")
-#         await state.clear()
-#         return
-
-#     sorted_data_list = await process_data(driver, operation_type)
-
-#     result = f"Курсы для {'покупки' if operation_type == 'Купить $' else 'продажи'} в городе {city}: {sorted_data_list}"
-#     await message.answer(result)
-#     await state.clear()
