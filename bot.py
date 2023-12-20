@@ -1,18 +1,26 @@
 import asyncio
 import logging
+import os
+
 from aiogram import Bot, Dispatcher, types
-from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
-from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.fsm.context import FSMContext
 from aiogram.filters.command import Command
-from create_driver import create_driver
+from aiogram.fsm.context import FSMContext
+from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
+from dotenv import load_dotenv
 from selenium.webdriver.common.by import By
 from slugify import slugify
+
+from create_driver import create_driver
 from utils import available_cities, process_data
 
+load_dotenv()
 logging.basicConfig(level=logging.INFO)
 
-bot = Bot(token="6831828947:AAFEuMRVYVtCMTukSyAs0VWp9Rnzf-DHdpE")
+load_dotenv()
+tg_token = os.getenv('BOT_TOKEN')
+
+bot = Bot(token=tg_token)
 dp = Dispatcher(storage=MemoryStorage())
 
 keyboard = ReplyKeyboardMarkup(
