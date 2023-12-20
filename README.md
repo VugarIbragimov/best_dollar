@@ -1,5 +1,10 @@
 # best_dollar
-The best dollar exchange rate to buy in your city
+
+### **Стек**
+![python version](https://img.shields.io/badge/Python-3.9.6-red)
+![django version](https://img.shields.io/badge/aigram-3.2.0-blue)
+![celery version](https://img.shields.io/badge/selenium-4.16.0-green)
+![docker version](https://img.shields.io/badge/Docker-20.10.7-blue)
 
 # Бот для получения курсов 💲 в различных городах:
 
