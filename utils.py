@@ -48,7 +48,7 @@ async def process_data(driver, operation_type):
 
     sorted_data_list = sorted(
         data_list,
-        key=lambda x: float(x['exchange_rate'].replace('₽', '').replace(',', '.')),
+        key=lambda x: float(x['exchange_rate'].replace('₽', '').replace(',', '.').replace('—', '0')),
         reverse=operation_type == "Продать $")
 
     return sorted_data_list
