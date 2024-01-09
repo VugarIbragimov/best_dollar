@@ -14,8 +14,6 @@ from slugify import slugify
 from create_driver import create_driver
 from utils import available_cities, process_data, cached_function
 
-MAX_CACHE_SIZE = 128
-CACHE_TTL = 600
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)

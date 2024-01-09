@@ -3,6 +3,11 @@ from functools import lru_cache
 from cachetools import TTLCache
 
 
+MAX_CACHE_SIZE = 128
+CACHE_TTL = 600
+cache = TTLCache(maxsize=MAX_CACHE_SIZE, ttl=CACHE_TTL)
+
+
 # Function for finding data for a city
 async def process_data(driver, operation_type):
     data_list = []
@@ -54,12 +59,6 @@ async def process_data(driver, operation_type):
         reverse=operation_type == "Продать $")
 
     return sorted_data_list
-
-
-MAX_CACHE_SIZE = 128
-CACHE_TTL = 600
-
-cache = TTLCache(maxsize=MAX_CACHE_SIZE, ttl=CACHE_TTL)
 
 
 # decorator for functon
