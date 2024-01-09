@@ -12,7 +12,10 @@ from selenium.webdriver.common.by import By
 from slugify import slugify
 
 from create_driver import create_driver
-from utils import available_cities, process_data
+from utils import available_cities, process_data, cached_function
+
+MAX_CACHE_SIZE = 128
+CACHE_TTL = 600
 
 load_dotenv()
 logging.basicConfig(level=logging.INFO)
@@ -71,6 +74,7 @@ async def show_avaiable_commands(message: types.Message):
     await message.answer(response)
 
 
+@cached_function()
 @dp.message(lambda message: message.text == "Узнать курс по ЦБ")
 async def action_check_cbr(message: types.Message):
 
